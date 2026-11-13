@@ -1,0 +1,33 @@
+import whisper
+model = whisper.load_model("medium")
+result = model.transcribe("recording9.wav",language="en")
+print("audio processing done")
+ishita = result["text"]
+print("what you have said:",ishita)
+from ollama import chat
+print("loading model...")
+
+response = chat(
+    model='tinyllama',
+    messages=[
+
+        {'role': 'user', 'content': ishita}
+              ],
+)
+print("your response: \n")
+import textwrap
+last_response = response.message.content
+format = textwrap.fill(last_response,width=80)
+print(format)
+from gtts import gTTS
+print(" \n transcribing text to audio for your dumb ass.... because u cant read")
+
+texti = format
+tts = gTTS(text=texti, lang="en")
+
+tts.save("voice1245.mp3")
+print("audio saved succesfully \n")
+from IPython.display import Audio, display
+
+display(Audio("/content/voice1245.mp3", autoplay=True))
+
